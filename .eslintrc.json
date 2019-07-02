@@ -1,0 +1,21 @@
+{
+    "extends": ["standard", "standard-preact"],
+    "env": {
+      "browser": true,
+      "node": true,
+      "jest": true
+    },
+    "globals": {
+      "window": true,
+      "hexo": true
+    },
+    "plugins": ["jest", "compat"],
+    "rules": {
+      "jsx-quotes": ["error", "prefer-double"],
+      "compat/compat": ["error"]
+    },
+    "settings": {
+      "polyfills": ["fetch", "promises"]
+    }
+  }
+  
