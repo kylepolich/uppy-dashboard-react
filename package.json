@@ -16,6 +16,7 @@
     "babel-cli": "^6.26.0",
     "babel-core": "^6.26.3",
     "babel-jest": "^23.6.0",
+    "babel-plugin-module-resolver": "^3.2.0",
     "babel-plugin-transform-object-assign": "^6.22.0",
     "babel-plugin-transform-object-rest-spread": "^6.26.0",
     "babel-plugin-transform-proto-to-assign": "^6.26.0",
@@ -85,7 +86,8 @@
   "scripts": {
     "build:clean": "rm -rf ./dashboard/lib ./react/lib",
     "build:lib": "node ./bin/build-lib.js",
-    "build": "npm run build:lib",
+    "build:lib:dashboard": "node ./bin/build-lib-dashboard.js",
+    "build": "npm run build:lib:dashboard && npm run build:lib",
     "preinstall": "cd dashboard && npm install && cd ../react && npm install && cd .."
   },
   "jest": {

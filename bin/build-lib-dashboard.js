@@ -10,12 +10,12 @@ const transformFile = promisify(babel.transformFile)
 const writeFile = promisify(fs.writeFile)
 const stat = promisify(fs.stat)
 
-const SOURCE = './react/src/**/*.js'
+const SOURCE = './dashboard/src/**/*.js'
 // Files not to build (such as tests)
 const IGNORE = /\.test\.js$|__mocks__|companion\//
 // Files that should trigger a rebuild of everything on change
 const META_FILES = [
-  '.babelrc',
+  '.dashboard.babelrc',
   'package.json',
   'package-lock.json',
   'bin/build-lib.js'
