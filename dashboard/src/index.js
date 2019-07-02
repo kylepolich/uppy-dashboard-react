@@ -70,6 +70,7 @@ module.exports = class Dashboard extends Plugin {
         editFile: 'Edit file',
         editing: 'Editing %{file}',
         edit: 'Edit',
+        cropImage: 'Crop Image',
         finishEditingFile: 'Finish editing file',
         saveChanges: 'Save changes',
         cancel: 'Cancel',

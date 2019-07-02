@@ -1,6 +1,7 @@
 const getFileTypeIcon = require('../utils/getFileTypeIcon')
 const FilePreview = require('./FilePreview')
 const ignoreEvent = require('../utils/ignoreEvent.js')
+const Cropper = require('react-cropper')
 const { h, Component } = require('preact')
 
 class FileCard extends Component {
@@ -13,6 +14,7 @@ class FileCard extends Component {
     this.renderMetaFields = this.renderMetaFields.bind(this)
     this.handleSave = this.handleSave.bind(this)
     this.handleCancel = this.handleCancel.bind(this)
+    this._crop = this._crop.bind(this)
   }
 
   componentDidMount () {
@@ -66,6 +68,11 @@ class FileCard extends Component {
     this.props.toggleFileCard()
   }
 
+  _crop () {
+    // image in dataUrl
+    console.log(this.cropper.getCroppedCanvas().toDataURL())
+  }
+
   render () {
     const file = this.props.files[this.props.fileCardFor]
 
@@ -89,6 +96,18 @@ class FileCard extends Component {
         <div class="uppy-DashboardFileCard-inner">
           <div class="uppy-DashboardFileCard-preview" style={{ backgroundColor: getFileTypeIcon(file.type).color }}>
             <FilePreview file={file} />
+          </div>
+          <div>
+            <Cropper
+              ref={(cropper) => {
+                this.cropper = cropper
+              }}
+              src="http://fengyuanchen.github.io/cropper/img/picture.jpg"
+              style={{height: 400, width: '100%'}}
+              aspectRatio={16 / 9}
+              guides={false}
+              crop={this._crop}
+            />
           </div>
 
           <div class="uppy-DashboardFileCard-info">
