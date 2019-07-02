@@ -8,6 +8,7 @@ var getFileTypeIcon = require('../utils/getFileTypeIcon');
 var FilePreview = require('./FilePreview');
 var ignoreEvent = require('../utils/ignoreEvent.js');
 var Cropper = require('react-cropper').default;
+require('cropperjs/dist/cropper.css');
 
 var _require = require('preact'),
     h = _require.h,
