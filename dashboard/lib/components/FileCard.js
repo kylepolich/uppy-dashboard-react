@@ -7,6 +7,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 var getFileTypeIcon = require('../utils/getFileTypeIcon');
 var FilePreview = require('./FilePreview');
 var ignoreEvent = require('../utils/ignoreEvent.js');
+var Cropper = require('react-cropper');
 
 var _require = require('preact'),
     h = _require.h,
@@ -26,6 +27,7 @@ var FileCard = function (_Component) {
     _this.renderMetaFields = _this.renderMetaFields.bind(_this);
     _this.handleSave = _this.handleSave.bind(_this);
     _this.handleCancel = _this.handleCancel.bind(_this);
+    _this._crop = _this._crop.bind(_this);
     return _this;
   }
 
@@ -91,7 +93,14 @@ var FileCard = function (_Component) {
     this.props.toggleFileCard();
   };
 
+  FileCard.prototype._crop = function _crop() {
+    // image in dataUrl
+    console.log(this.cropper.getCroppedCanvas().toDataURL());
+  };
+
   FileCard.prototype.render = function render() {
+    var _this4 = this;
+
     var file = this.props.files[this.props.fileCardFor];
 
     return h(
@@ -130,6 +139,20 @@ var FileCard = function (_Component) {
           'div',
           { 'class': 'uppy-DashboardFileCard-preview', style: { backgroundColor: getFileTypeIcon(file.type).color } },
           h(FilePreview, { file: file })
+        ),
+        h(
+          'div',
+          null,
+          h(Cropper, {
+            ref: function ref(cropper) {
+              _this4.cropper = cropper;
+            },
+            src: 'http://fengyuanchen.github.io/cropper/img/picture.jpg',
+            style: { height: 400, width: '100%' },
+            aspectRatio: 16 / 9,
+            guides: false,
+            crop: this._crop
+          })
         ),
         h(
           'div',
