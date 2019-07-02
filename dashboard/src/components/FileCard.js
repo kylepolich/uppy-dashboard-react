@@ -1,7 +1,7 @@
 const getFileTypeIcon = require('../utils/getFileTypeIcon')
 const FilePreview = require('./FilePreview')
 const ignoreEvent = require('../utils/ignoreEvent.js')
-const Cropper = require('react-cropper')
+const Cropper = require('react-cropper').default
 const { h, Component } = require('preact')
 
 class FileCard extends Component {
