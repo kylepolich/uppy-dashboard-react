@@ -82,7 +82,7 @@ class CropModal extends Component {
               <button type="button" class="close" aria-label="Close" onclick={this.onClose}><span aria-hidden="true">&times;</span></button>
             </div>
             <div class="modal-body">
-              <div class="img-container">
+              <div style={{ maxWidth: '100%' }}>
                 <img id={file.id} src={file.preview} alt="Picture" />
               </div>
             </div>

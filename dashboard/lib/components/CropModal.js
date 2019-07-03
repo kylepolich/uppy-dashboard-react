@@ -125,7 +125,7 @@ var CropModal = function (_Component) {
             { 'class': 'modal-body' },
             h(
               'div',
-              { 'class': 'img-container' },
+              { style: { maxWidth: '100%' } },
               h('img', { id: file.id, src: file.preview, alt: 'Picture' })
             )
           ),
