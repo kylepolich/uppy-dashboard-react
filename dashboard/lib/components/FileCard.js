@@ -62,7 +62,7 @@ var FileCard = function (_Component) {
     if (file.preview) {
       return h(
         'div',
-        null,
+        { 'class': 'uppy-u-reset uppy-DashboardItem-crop' },
         h(
           'button',
           { 'class': 'uppy-u-reset uppy-DashboardItem-edit',

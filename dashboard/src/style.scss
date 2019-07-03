@@ -894,6 +894,11 @@ a.uppy-Dashboard-poweredBy {
   }
 }
 
+.uppy-DashboardItem-crop {
+  align-self: center;
+  margin-top: 10px;
+}
+
 .uppy-DashboardItem-edit:not(:first-child),
 .uppy-DashboardItem-copyLink:not(:first-child),
 .uppy-DashboardItem-sourceIcon:not(:first-child) {

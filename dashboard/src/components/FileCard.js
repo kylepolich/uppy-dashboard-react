@@ -43,7 +43,7 @@ class FileCard extends Component {
   renderCropButton (file) {
     if (file.preview) {
       return (
-        <div>
+        <div class="uppy-u-reset uppy-DashboardItem-crop">
           <button class="uppy-u-reset uppy-DashboardItem-edit"
             type="button"
             aria-label={this.props.i18n('cropImage')}
