@@ -93,7 +93,7 @@ var CropModal = function (_Component) {
 
     return h(
       'div',
-      { 'class': 'modal fade' + (active !== false ? ' d-block fade show' : ''), ref: function ref(background) {
+      { 'class': 'modal fade' + (active !== false ? ' d-block fade show' : ''), style: { background: 'rgba(0,0,0,0.5)' }, onclick: this.onClick, ref: function ref(background) {
           _this2.background = background;
         } },
       h(
