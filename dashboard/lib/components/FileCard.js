@@ -14,8 +14,6 @@ var _require = require('preact'),
     h = _require.h,
     Component = _require.Component;
 
-var imageTag = 'crop-image';
-
 var FileCard = function (_Component) {
   _inherits(FileCard, _Component);
 
@@ -38,7 +36,8 @@ var FileCard = function (_Component) {
     var _this2 = this;
 
     console.log('new Cropper()');
-    var image = document.getElementById(imageTag);
+    var file = this.props.files[this.props.fileCardFor];
+    var image = document.getElementById(file.id);
     this.cropper = new Cropper(image, {
       aspectRatio: 16 / 9,
       crop: this._crop
@@ -150,7 +149,7 @@ var FileCard = function (_Component) {
         h(
           'div',
           { 'class': 'uppy-DashboardFileCard-preview', style: { backgroundColor: getFileTypeIcon(file.type).color } },
-          h(FilePreview, { id: imageTag, file: file })
+          h(FilePreview, { id: file.id, file: file })
         ),
         h(
           'div',
