@@ -7,12 +7,14 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 var getFileTypeIcon = require('../utils/getFileTypeIcon');
 var FilePreview = require('./FilePreview');
 var ignoreEvent = require('../utils/ignoreEvent.js');
-var Cropper = require('react-cropper').default;
+var Cropper = require('cropperjs').default;
 require('cropperjs/dist/cropper.css');
 
 var _require = require('preact'),
     h = _require.h,
     Component = _require.Component;
+
+var imageTag = 'crop-image';
 
 var FileCard = function (_Component) {
   _inherits(FileCard, _Component);
@@ -35,6 +37,12 @@ var FileCard = function (_Component) {
   FileCard.prototype.componentDidMount = function componentDidMount() {
     var _this2 = this;
 
+    console.log('new Cropper()');
+    var image = document.getElementById(imageTag);
+    this.cropper = new Cropper(image, {
+      aspectRatio: 16 / 9,
+      crop: this._crop
+    });
     setTimeout(function () {
       if (!_this2.firstInput) return;
       _this2.firstInput.focus({ preventScroll: true });
@@ -94,14 +102,17 @@ var FileCard = function (_Component) {
     this.props.toggleFileCard();
   };
 
-  FileCard.prototype._crop = function _crop() {
-    // image in dataUrl
-    console.log(this.cropper.getCroppedCanvas().toDataURL());
+  FileCard.prototype._crop = function _crop(event) {
+    console.log('x = ', event.detail.x);
+    console.log('y = ', event.detail.y);
+    console.log('w = ', event.detail.width);
+    console.log('h = ', event.detail.height);
+    console.log('ro = ', event.detail.rotate);
+    console.log('sx = ', event.detail.scaleX);
+    console.log('sy = ', event.detail.scaleY);
   };
 
   FileCard.prototype.render = function render() {
-    var _this4 = this;
-
     var file = this.props.files[this.props.fileCardFor];
 
     return h(
@@ -139,21 +150,7 @@ var FileCard = function (_Component) {
         h(
           'div',
           { 'class': 'uppy-DashboardFileCard-preview', style: { backgroundColor: getFileTypeIcon(file.type).color } },
-          h(FilePreview, { file: file })
-        ),
-        h(
-          'div',
-          null,
-          h(Cropper, {
-            ref: function ref(cropper) {
-              _this4.cropper = cropper;
-            },
-            src: 'http://fengyuanchen.github.io/cropper/img/picture.jpg',
-            style: { height: 400, width: '100%' },
-            aspectRatio: 16 / 9,
-            guides: false,
-            crop: this._crop
-          })
+          h(FilePreview, { id: imageTag, file: file })
         ),
         h(
           'div',

@@ -7,7 +7,7 @@ module.exports = function FilePreview(props) {
   var file = props.file;
 
   if (file.preview) {
-    return h('img', { 'class': 'uppy-DashboardItem-previewImg', alt: file.name, src: file.preview });
+    return h('img', { id: props.id || 'image-item', 'class': 'uppy-DashboardItem-previewImg', alt: file.name, src: file.preview });
   }
 
   var _getFileTypeIcon = getFileTypeIcon(file.type),

@@ -1,9 +1,11 @@
 const getFileTypeIcon = require('../utils/getFileTypeIcon')
 const FilePreview = require('./FilePreview')
 const ignoreEvent = require('../utils/ignoreEvent.js')
-const Cropper = require('react-cropper').default
+const Cropper = require('cropperjs').default
 require('cropperjs/dist/cropper.css')
 const { h, Component } = require('preact')
+
+const imageTag = 'crop-image'
 
 class FileCard extends Component {
   constructor (props) {
@@ -19,6 +21,12 @@ class FileCard extends Component {
   }
 
   componentDidMount () {
+    console.log('new Cropper()')
+    const image = document.getElementById(imageTag)
+    this.cropper = new Cropper(image, {
+      aspectRatio: 16 / 9,
+      crop: this._crop
+    })
     setTimeout(() => {
       if (!this.firstInput) return
       this.firstInput.focus({ preventScroll: true })
@@ -69,9 +77,14 @@ class FileCard extends Component {
     this.props.toggleFileCard()
   }
 
-  _crop () {
-    // image in dataUrl
-    console.log(this.cropper.getCroppedCanvas().toDataURL())
+  _crop (event) {
+    console.log('x = ', event.detail.x)
+    console.log('y = ', event.detail.y)
+    console.log('w = ', event.detail.width)
+    console.log('h = ', event.detail.height)
+    console.log('ro = ', event.detail.rotate)
+    console.log('sx = ', event.detail.scaleX)
+    console.log('sy = ', event.detail.scaleY)
   }
 
   render () {
@@ -96,19 +109,7 @@ class FileCard extends Component {
 
         <div class="uppy-DashboardFileCard-inner">
           <div class="uppy-DashboardFileCard-preview" style={{ backgroundColor: getFileTypeIcon(file.type).color }}>
-            <FilePreview file={file} />
-          </div>
-          <div>
-            <Cropper
-              ref={(cropper) => {
-                this.cropper = cropper
-              }}
-              src="http://fengyuanchen.github.io/cropper/img/picture.jpg"
-              style={{height: 400, width: '100%'}}
-              aspectRatio={16 / 9}
-              guides={false}
-              crop={this._crop}
-            />
+            <FilePreview id={imageTag} file={file} />
           </div>
 
           <div class="uppy-DashboardFileCard-info">
