@@ -6,9 +6,8 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 
 var getFileTypeIcon = require('../utils/getFileTypeIcon');
 var FilePreview = require('./FilePreview');
+var CropModal = require('./CropModal');
 var ignoreEvent = require('../utils/ignoreEvent.js');
-var Cropper = require('cropperjs');
-require('cropperjs/dist/cropper.css');
 
 var _require = require('preact'),
     h = _require.h,
@@ -23,27 +22,19 @@ var FileCard = function (_Component) {
     var _this = _possibleConstructorReturn(this, _Component.call(this, props));
 
     _this.meta = {};
-    _this.cropper = null;
 
     _this.tempStoreMetaOrSubmit = _this.tempStoreMetaOrSubmit.bind(_this);
     _this.renderMetaFields = _this.renderMetaFields.bind(_this);
     _this.handleSave = _this.handleSave.bind(_this);
     _this.handleCancel = _this.handleCancel.bind(_this);
-    _this._crop = _this._crop.bind(_this);
+    _this.handleCloseCropModal = _this.handleCloseCropModal.bind(_this);
+    _this.handleSaveCropModal = _this.handleSaveCropModal.bind(_this);
     return _this;
   }
 
   FileCard.prototype.componentDidMount = function componentDidMount() {
     var _this2 = this;
 
-    console.log('new Cropper...');
-    var file = this.props.files[this.props.fileCardFor];
-    var image = document.getElementById(file.id);
-    this.cropper = new Cropper(image, {
-      aspectRatio: 16 / 9,
-      guides: true,
-      crop: this._crop
-    });
     setTimeout(function () {
       if (!_this2.firstInput) return;
       _this2.firstInput.focus({ preventScroll: true });
@@ -79,7 +70,7 @@ var FileCard = function (_Component) {
             'aria-label': this.props.i18n('cropImage'),
             title: this.props.i18n('cropImage'),
             onclick: function onclick() {
-              return _this3.props.togggleCropModal(true);
+              return _this3.props.toggleCropModal(true);
             } },
           h('i', { 'class': 'fa fa-crop' })
         )
@@ -117,35 +108,26 @@ var FileCard = function (_Component) {
   };
 
   FileCard.prototype.handleSave = function handleSave(ev) {
-    if (this.cropper) {
-      this.cropper.destroy();
-      this.cropper = null;
-    }
     var fileID = this.props.fileCardFor;
     this.props.saveFileCard(this.meta, fileID);
   };
 
   FileCard.prototype.handleCancel = function handleCancel(ev) {
-    if (this.cropper) {
-      this.cropper.destroy();
-      this.cropper = null;
-    }
     this.meta = {};
     this.props.toggleFileCard();
   };
 
-  FileCard.prototype._crop = function _crop(event) {
-    console.log('x = ', event.detail.x);
-    console.log('y = ', event.detail.y);
-    console.log('w = ', event.detail.width);
-    console.log('h = ', event.detail.height);
-    console.log('ro = ', event.detail.rotate);
-    console.log('sx = ', event.detail.scaleX);
-    console.log('sy = ', event.detail.scaleY);
+  FileCard.prototype.handleCloseCropModal = function handleCloseCropModal(ev) {
+    this.props.toggleCropModal(false);
+  };
+
+  FileCard.prototype.handleSaveCropModal = function handleSaveCropModal(data) {
+    console.log('handleSaveCropModal: data = ', data);
   };
 
   FileCard.prototype.render = function render() {
     var file = this.props.files[this.props.fileCardFor];
+    var showCropModal = this.props.showCropModal;
 
     return h(
       'div',
@@ -182,9 +164,10 @@ var FileCard = function (_Component) {
         h(
           'div',
           { 'class': 'uppy-DashboardFileCard-preview', style: { backgroundColor: getFileTypeIcon(file.type).color } },
-          h(FilePreview, { id: file.id, file: file })
+          h(FilePreview, { file: file })
         ),
         this.renderCropButton(file),
+        h(CropModal, { active: showCropModal, file: file, onClose: this.handleCloseCropModal, onSave: this.handleSaveCropModal }),
         h(
           'div',
           { 'class': 'uppy-DashboardFileCard-info' },

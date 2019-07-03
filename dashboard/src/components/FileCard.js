@@ -1,8 +1,7 @@
 const getFileTypeIcon = require('../utils/getFileTypeIcon')
 const FilePreview = require('./FilePreview')
+const CropModal = require('./CropModal')
 const ignoreEvent = require('../utils/ignoreEvent.js')
-const Cropper = require('cropperjs')
-require('cropperjs/dist/cropper.css')
 const { h, Component } = require('preact')
 
 class FileCard extends Component {
@@ -10,24 +9,16 @@ class FileCard extends Component {
     super(props)
 
     this.meta = {}
-    this.cropper = null
 
     this.tempStoreMetaOrSubmit = this.tempStoreMetaOrSubmit.bind(this)
     this.renderMetaFields = this.renderMetaFields.bind(this)
     this.handleSave = this.handleSave.bind(this)
     this.handleCancel = this.handleCancel.bind(this)
-    this._crop = this._crop.bind(this)
+    this.handleCloseCropModal = this.handleCloseCropModal.bind(this)
+    this.handleSaveCropModal = this.handleSaveCropModal.bind(this)
   }
 
   componentDidMount () {
-    console.log('new Cropper...')
-    const file = this.props.files[this.props.fileCardFor]
-    const image = document.getElementById(file.id)
-    this.cropper = new Cropper(image, {
-      aspectRatio: 16 / 9,
-      guides: true,
-      crop: this._crop
-    })
     setTimeout(() => {
       if (!this.firstInput) return
       this.firstInput.focus({ preventScroll: true })
@@ -57,7 +48,7 @@ class FileCard extends Component {
             type="button"
             aria-label={this.props.i18n('cropImage')}
             title={this.props.i18n('cropImage')}
-            onclick={() => this.props.togggleCropModal(true)}>
+            onclick={() => this.props.toggleCropModal(true)}>
             <i class="fa fa-crop" />
           </button>
         </div>
@@ -86,35 +77,26 @@ class FileCard extends Component {
   }
 
   handleSave (ev) {
-    if (this.cropper) {
-      this.cropper.destroy()
-      this.cropper = null
-    }
     const fileID = this.props.fileCardFor
     this.props.saveFileCard(this.meta, fileID)
   }
 
   handleCancel (ev) {
-    if (this.cropper) {
-      this.cropper.destroy()
-      this.cropper = null
-    }
     this.meta = {}
     this.props.toggleFileCard()
   }
 
-  _crop (event) {
-    console.log('x = ', event.detail.x)
-    console.log('y = ', event.detail.y)
-    console.log('w = ', event.detail.width)
-    console.log('h = ', event.detail.height)
-    console.log('ro = ', event.detail.rotate)
-    console.log('sx = ', event.detail.scaleX)
-    console.log('sy = ', event.detail.scaleY)
+  handleCloseCropModal (ev) {
+    this.props.toggleCropModal(false)
+  }
+
+  handleSaveCropModal (data) {
+    console.log('handleSaveCropModal: data = ', data)
   }
 
   render () {
     const file = this.props.files[this.props.fileCardFor]
+    const showCropModal = this.props.showCropModal
 
     return (
       <div class="uppy-DashboardFileCard"
@@ -135,10 +117,12 @@ class FileCard extends Component {
 
         <div class="uppy-DashboardFileCard-inner">
           <div class="uppy-DashboardFileCard-preview" style={{ backgroundColor: getFileTypeIcon(file.type).color }}>
-            <FilePreview id={file.id} file={file} />
+            <FilePreview file={file} />
           </div>
           
+          {/* CROPPER */}
           {this.renderCropButton(file)}
+          <CropModal active={showCropModal} file={file} onClose={this.handleCloseCropModal} onSave={this.handleSaveCropModal} />
 
           <div class="uppy-DashboardFileCard-info">
             {this.renderMetaFields(file)}
