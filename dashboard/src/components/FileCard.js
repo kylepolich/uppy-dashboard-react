@@ -1,7 +1,7 @@
 const getFileTypeIcon = require('../utils/getFileTypeIcon')
 const FilePreview = require('./FilePreview')
 const ignoreEvent = require('../utils/ignoreEvent.js')
-const Cropper = require('cropperjs').default
+const Cropper = require('cropperjs')
 require('cropperjs/dist/cropper.css')
 const { h, Component } = require('preact')
 

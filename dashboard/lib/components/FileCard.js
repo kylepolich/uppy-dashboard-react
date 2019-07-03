@@ -7,7 +7,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 var getFileTypeIcon = require('../utils/getFileTypeIcon');
 var FilePreview = require('./FilePreview');
 var ignoreEvent = require('../utils/ignoreEvent.js');
-var Cropper = require('cropperjs').default;
+var Cropper = require('cropperjs');
 require('cropperjs/dist/cropper.css');
 
 var _require = require('preact'),
