@@ -176,6 +176,7 @@ module.exports = function (_Plugin) {
     _this.handleComplete = _this.handleComplete.bind(_this);
     _this.handleClickOutside = _this.handleClickOutside.bind(_this);
     _this.toggleFileCard = _this.toggleFileCard.bind(_this);
+    _this.togggleCropModal = _this.togggleCropModal.bind(_this);
     _this.toggleAddFilesPanel = _this.toggleAddFilesPanel.bind(_this);
     _this.handlePaste = _this.handlePaste.bind(_this);
     _this.handleInputChange = _this.handleInputChange.bind(_this);
@@ -235,6 +236,7 @@ module.exports = function (_Plugin) {
   Dashboard.prototype.hideAllPanels = function hideAllPanels() {
     this.setPluginState({
       activePickerPanel: false,
+      showCropModal: false,
       showAddFilesPanel: false,
       activeOverlayType: null
     });
@@ -674,6 +676,12 @@ module.exports = function (_Plugin) {
     });
   };
 
+  Dashboard.prototype.togggleCropModal = function togggleCropModal(show) {
+    this.setPluginState({
+      showCropModal: show
+    });
+  };
+
   Dashboard.prototype.toggleAddFilesPanel = function toggleAddFilesPanel(show) {
     this.setPluginState({
       showAddFilesPanel: show,
@@ -823,6 +831,8 @@ module.exports = function (_Plugin) {
       cancelAll: this.uppy.cancelAll,
       fileCardFor: pluginState.fileCardFor,
       toggleFileCard: this.toggleFileCard,
+      showCropModal: pluginState.showCropModal,
+      togggleCropModal: this.togggleCropModal,
       toggleAddFilesPanel: this.toggleAddFilesPanel,
       showAddFilesPanel: pluginState.showAddFilesPanel,
       saveFileCard: saveFileCard,
@@ -865,6 +875,7 @@ module.exports = function (_Plugin) {
       isHidden: true,
       fileCardFor: null,
       activeOverlayType: null,
+      showCropModal: false,
       showAddFilesPanel: false,
       activePickerPanel: false,
       metaFields: this.opts.metaFields,

@@ -41,7 +41,6 @@ var FileCard = function (_Component) {
     var image = document.getElementById(file.id);
     this.cropper = new Cropper(image, {
       aspectRatio: 16 / 9,
-      modal: true,
       guides: true,
       crop: this._crop
     });
@@ -66,8 +65,31 @@ var FileCard = function (_Component) {
     this.meta[name] = value;
   };
 
-  FileCard.prototype.renderMetaFields = function renderMetaFields(file) {
+  FileCard.prototype.renderCropButton = function renderCropButton(file) {
     var _this3 = this;
+
+    if (file.preview) {
+      return h(
+        'div',
+        null,
+        h(
+          'button',
+          { 'class': 'uppy-u-reset uppy-DashboardItem-edit',
+            type: 'button',
+            'aria-label': this.props.i18n('cropImage'),
+            title: this.props.i18n('cropImage'),
+            onclick: function onclick() {
+              return _this3.props.togggleCropModal(true);
+            } },
+          h('i', { 'class': 'fa fa-crop' })
+        )
+      );
+    }
+    return null;
+  };
+
+  FileCard.prototype.renderMetaFields = function renderMetaFields(file) {
+    var _this4 = this;
 
     var metaFields = this.props.metaFields || [];
     return metaFields.map(function (field, i) {
@@ -84,11 +106,11 @@ var FileCard = function (_Component) {
           'data-name': field.id,
           value: file.meta[field.id],
           placeholder: field.placeholder,
-          onkeyup: _this3.tempStoreMetaOrSubmit,
-          onkeydown: _this3.tempStoreMetaOrSubmit,
-          onkeypress: _this3.tempStoreMetaOrSubmit,
+          onkeyup: _this4.tempStoreMetaOrSubmit,
+          onkeydown: _this4.tempStoreMetaOrSubmit,
+          onkeypress: _this4.tempStoreMetaOrSubmit,
           ref: function ref(el) {
-            if (i === 0) _this3.firstInput = el;
+            if (i === 0) _this4.firstInput = el;
           } })
       );
     });
@@ -162,6 +184,7 @@ var FileCard = function (_Component) {
           { 'class': 'uppy-DashboardFileCard-preview', style: { backgroundColor: getFileTypeIcon(file.type).color } },
           h(FilePreview, { id: file.id, file: file })
         ),
+        this.renderCropButton(file),
         h(
           'div',
           { 'class': 'uppy-DashboardFileCard-info' },

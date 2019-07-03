@@ -57,7 +57,7 @@ class FileCard extends Component {
             type="button"
             aria-label={this.props.i18n('cropImage')}
             title={this.props.i18n('cropImage')}
-            onclick={this.props.togggleCropModal}>
+            onclick={() => this.props.togggleCropModal(true)}>
             <i class="fa fa-crop" />
           </button>
         </div>
