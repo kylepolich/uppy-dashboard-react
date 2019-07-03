@@ -168,7 +168,7 @@ module.exports = class Dashboard extends Plugin {
     this.handleComplete = this.handleComplete.bind(this)
     this.handleClickOutside = this.handleClickOutside.bind(this)
     this.toggleFileCard = this.toggleFileCard.bind(this)
-    this.togggleCropModal = this.togggleCropModal.bind(this)
+    this.toggleCropModal = this.toggleCropModal.bind(this)
     this.toggleAddFilesPanel = this.toggleAddFilesPanel.bind(this)
     this.handlePaste = this.handlePaste.bind(this)
     this.handleInputChange = this.handleInputChange.bind(this)
@@ -613,7 +613,7 @@ module.exports = class Dashboard extends Plugin {
     })
   }
 
-  togggleCropModal (show) {
+  toggleCropModal (show) {
     this.setPluginState({
       showCropModal: show
     })
@@ -769,7 +769,7 @@ module.exports = class Dashboard extends Plugin {
       fileCardFor: pluginState.fileCardFor,
       toggleFileCard: this.toggleFileCard,
       showCropModal: pluginState.showCropModal,
-      togggleCropModal: this.togggleCropModal,
+      toggleCropModal: this.toggleCropModal,
       toggleAddFilesPanel: this.toggleAddFilesPanel,
       showAddFilesPanel: pluginState.showAddFilesPanel,
       saveFileCard,

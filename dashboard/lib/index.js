@@ -176,7 +176,7 @@ module.exports = function (_Plugin) {
     _this.handleComplete = _this.handleComplete.bind(_this);
     _this.handleClickOutside = _this.handleClickOutside.bind(_this);
     _this.toggleFileCard = _this.toggleFileCard.bind(_this);
-    _this.togggleCropModal = _this.togggleCropModal.bind(_this);
+    _this.toggleCropModal = _this.toggleCropModal.bind(_this);
     _this.toggleAddFilesPanel = _this.toggleAddFilesPanel.bind(_this);
     _this.handlePaste = _this.handlePaste.bind(_this);
     _this.handleInputChange = _this.handleInputChange.bind(_this);
@@ -676,7 +676,7 @@ module.exports = function (_Plugin) {
     });
   };
 
-  Dashboard.prototype.togggleCropModal = function togggleCropModal(show) {
+  Dashboard.prototype.toggleCropModal = function toggleCropModal(show) {
     this.setPluginState({
       showCropModal: show
     });
@@ -832,7 +832,7 @@ module.exports = function (_Plugin) {
       fileCardFor: pluginState.fileCardFor,
       toggleFileCard: this.toggleFileCard,
       showCropModal: pluginState.showCropModal,
-      togggleCropModal: this.togggleCropModal,
+      toggleCropModal: this.toggleCropModal,
       toggleAddFilesPanel: this.toggleAddFilesPanel,
       showAddFilesPanel: pluginState.showAddFilesPanel,
       saveFileCard: saveFileCard,
