@@ -168,6 +168,7 @@ module.exports = class Dashboard extends Plugin {
     this.handleComplete = this.handleComplete.bind(this)
     this.handleClickOutside = this.handleClickOutside.bind(this)
     this.toggleFileCard = this.toggleFileCard.bind(this)
+    this.togggleCropModal = this.togggleCropModal.bind(this)
     this.toggleAddFilesPanel = this.toggleAddFilesPanel.bind(this)
     this.handlePaste = this.handlePaste.bind(this)
     this.handleInputChange = this.handleInputChange.bind(this)
@@ -226,6 +227,7 @@ module.exports = class Dashboard extends Plugin {
   hideAllPanels () {
     this.setPluginState({
       activePickerPanel: false,
+      showCropModal: false,
       showAddFilesPanel: false,
       activeOverlayType: null
     })
@@ -611,6 +613,12 @@ module.exports = class Dashboard extends Plugin {
     })
   }
 
+  togggleCropModal (show) {
+    this.setPluginState({
+      showCropModal: show
+    })
+  }
+
   toggleAddFilesPanel (show) {
     this.setPluginState({
       showAddFilesPanel: show,
@@ -760,6 +768,8 @@ module.exports = class Dashboard extends Plugin {
       cancelAll: this.uppy.cancelAll,
       fileCardFor: pluginState.fileCardFor,
       toggleFileCard: this.toggleFileCard,
+      showCropModal: pluginState.showCropModal,
+      togggleCropModal: this.togggleCropModal,
       toggleAddFilesPanel: this.toggleAddFilesPanel,
       showAddFilesPanel: pluginState.showAddFilesPanel,
       saveFileCard,
@@ -798,6 +808,7 @@ module.exports = class Dashboard extends Plugin {
       isHidden: true,
       fileCardFor: null,
       activeOverlayType: null,
+      showCropModal: false,
       showAddFilesPanel: false,
       activePickerPanel: false,
       metaFields: this.opts.metaFields,

@@ -5,7 +5,7 @@ module.exports = function FilePreview (props) {
   const file = props.file
 
   if (file.preview) {
-    return <img id={props.id || 'image-item'} class="uppy-DashboardItem-previewImg" alt={file.name} src={file.preview} />
+    return <img class="uppy-DashboardItem-previewImg" alt={file.name} src={file.preview} />
   }
 
   const { color, icon } = getFileTypeIcon(file.type)

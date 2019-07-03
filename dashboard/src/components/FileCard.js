@@ -49,6 +49,23 @@ class FileCard extends Component {
     this.meta[name] = value
   }
 
+  renderCropButton (file) {
+    if (file.preview) {
+      return (
+        <div>
+          <button class="uppy-u-reset uppy-DashboardItem-edit"
+            type="button"
+            aria-label={this.props.i18n('cropImage')}
+            title={this.props.i18n('cropImage')}
+            onclick={this.props.togggleCropModal}>
+            <i class="fa fa-crop" />
+          </button>
+        </div>
+      )
+    }
+    return null
+  }
+
   renderMetaFields (file) {
     const metaFields = this.props.metaFields || []
     return metaFields.map((field, i) => {
@@ -120,6 +137,8 @@ class FileCard extends Component {
           <div class="uppy-DashboardFileCard-preview" style={{ backgroundColor: getFileTypeIcon(file.type).color }}>
             <FilePreview id={file.id} file={file} />
           </div>
+          
+          {this.renderCropButton(file)}
 
           <div class="uppy-DashboardFileCard-info">
             {this.renderMetaFields(file)}
