@@ -74,7 +74,7 @@ class CropModal extends Component {
     const { active, file } = this.props
 
     return (
-      <div class={`modal fade${active !== false ? ' d-block fade show' : ''}`} ref={(background) => { this.background = background }}>
+      <div class={`modal fade${active !== false ? ' d-block fade show' : ''}`} style={{ background: 'rgba(0,0,0,0.5)' }} onclick={this.onClick} ref={(background) => { this.background = background }}>
         <div class="modal-dialog" role="document">
           <div class="modal-content">
             <div class="modal-header">
