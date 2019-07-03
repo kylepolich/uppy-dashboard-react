@@ -25,7 +25,6 @@ class FileCard extends Component {
     const image = document.getElementById(file.id)
     this.cropper = new Cropper(image, {
       aspectRatio: 16 / 9,
-      modal: true,
       guides: true,
       crop: this._crop
     })
