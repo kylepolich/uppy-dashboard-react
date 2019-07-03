@@ -10,6 +10,7 @@ class FileCard extends Component {
     super(props)
 
     this.meta = {}
+    this.cropper = null
 
     this.tempStoreMetaOrSubmit = this.tempStoreMetaOrSubmit.bind(this)
     this.renderMetaFields = this.renderMetaFields.bind(this)
@@ -32,11 +33,6 @@ class FileCard extends Component {
       if (!this.firstInput) return
       this.firstInput.focus({ preventScroll: true })
     }, 150)
-  }
-
-  componentWillUnmount () {
-    console.log('destroy Cropper...')
-    this.cropper.destroy()
   }
 
   tempStoreMetaOrSubmit (ev) {
@@ -74,11 +70,19 @@ class FileCard extends Component {
   }
 
   handleSave (ev) {
+    if (this.cropper) {
+      this.cropper.destroy()
+      this.cropper = null
+    }
     const fileID = this.props.fileCardFor
     this.props.saveFileCard(this.meta, fileID)
   }
 
   handleCancel (ev) {
+    if (this.cropper) {
+      this.cropper.destroy()
+      this.cropper = null
+    }
     this.meta = {}
     this.props.toggleFileCard()
   }

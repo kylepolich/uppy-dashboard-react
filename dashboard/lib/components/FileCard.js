@@ -23,6 +23,7 @@ var FileCard = function (_Component) {
     var _this = _possibleConstructorReturn(this, _Component.call(this, props));
 
     _this.meta = {};
+    _this.cropper = null;
 
     _this.tempStoreMetaOrSubmit = _this.tempStoreMetaOrSubmit.bind(_this);
     _this.renderMetaFields = _this.renderMetaFields.bind(_this);
@@ -35,13 +36,13 @@ var FileCard = function (_Component) {
   FileCard.prototype.componentDidMount = function componentDidMount() {
     var _this2 = this;
 
-    console.log('new Cropper()');
+    console.log('new Cropper...');
     var file = this.props.files[this.props.fileCardFor];
     var image = document.getElementById(file.id);
-    console.log('id = ', file.id);
-    console.log('image = ', image);
     this.cropper = new Cropper(image, {
       aspectRatio: 16 / 9,
+      modal: true,
+      guides: true,
       crop: this._crop
     });
     setTimeout(function () {
@@ -94,11 +95,19 @@ var FileCard = function (_Component) {
   };
 
   FileCard.prototype.handleSave = function handleSave(ev) {
+    if (this.cropper) {
+      this.cropper.destroy();
+      this.cropper = null;
+    }
     var fileID = this.props.fileCardFor;
     this.props.saveFileCard(this.meta, fileID);
   };
 
   FileCard.prototype.handleCancel = function handleCancel(ev) {
+    if (this.cropper) {
+      this.cropper.destroy();
+      this.cropper = null;
+    }
     this.meta = {};
     this.props.toggleFileCard();
   };
