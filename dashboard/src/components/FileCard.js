@@ -22,6 +22,8 @@ class FileCard extends Component {
     console.log('new Cropper()')
     const file = this.props.files[this.props.fileCardFor]
     const image = document.getElementById(file.id)
+    console.log('id = ', file.id)
+    console.log('image = ', image)
     this.cropper = new Cropper(image, {
       aspectRatio: 16 / 9,
       crop: this._crop

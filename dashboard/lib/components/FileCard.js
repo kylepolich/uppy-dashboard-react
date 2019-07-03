@@ -38,6 +38,8 @@ var FileCard = function (_Component) {
     console.log('new Cropper()');
     var file = this.props.files[this.props.fileCardFor];
     var image = document.getElementById(file.id);
+    console.log('id = ', file.id);
+    console.log('image = ', image);
     this.cropper = new Cropper(image, {
       aspectRatio: 16 / 9,
       crop: this._crop
