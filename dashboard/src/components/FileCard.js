@@ -5,8 +5,6 @@ const Cropper = require('cropperjs')
 require('cropperjs/dist/cropper.css')
 const { h, Component } = require('preact')
 
-const imageTag = 'crop-image'
-
 class FileCard extends Component {
   constructor (props) {
     super(props)
@@ -22,7 +20,8 @@ class FileCard extends Component {
 
   componentDidMount () {
     console.log('new Cropper()')
-    const image = document.getElementById(imageTag)
+    const file = this.props.files[this.props.fileCardFor]
+    const image = document.getElementById(file.id)
     this.cropper = new Cropper(image, {
       aspectRatio: 16 / 9,
       crop: this._crop
@@ -109,7 +108,7 @@ class FileCard extends Component {
 
         <div class="uppy-DashboardFileCard-inner">
           <div class="uppy-DashboardFileCard-preview" style={{ backgroundColor: getFileTypeIcon(file.type).color }}>
-            <FilePreview id={imageTag} file={file} />
+            <FilePreview id={file.id} file={file} />
           </div>
 
           <div class="uppy-DashboardFileCard-info">
