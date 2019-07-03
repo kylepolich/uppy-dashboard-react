@@ -19,19 +19,24 @@ class FileCard extends Component {
   }
 
   componentDidMount () {
-    console.log('new Cropper()')
+    console.log('new Cropper...')
     const file = this.props.files[this.props.fileCardFor]
     const image = document.getElementById(file.id)
-    console.log('id = ', file.id)
-    console.log('image = ', image)
     this.cropper = new Cropper(image, {
       aspectRatio: 16 / 9,
+      modal: true,
+      guides: true,
       crop: this._crop
     })
     setTimeout(() => {
       if (!this.firstInput) return
       this.firstInput.focus({ preventScroll: true })
     }, 150)
+  }
+
+  componentWillUnmount () {
+    console.log('destroy Cropper...')
+    this.cropper.destroy()
   }
 
   tempStoreMetaOrSubmit (ev) {
