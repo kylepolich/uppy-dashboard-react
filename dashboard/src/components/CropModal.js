@@ -9,6 +9,7 @@ class CropModal extends Component {
 
     this.cropper = null
 
+    this.init = this.init.bind(this)
     this.crop = this.crop.bind(this)
     this.onClick = this.onClick.bind(this)
     this.onClose = this.onClose.bind(this)
@@ -16,27 +17,54 @@ class CropModal extends Component {
   }
 
   componentDidMount () {
-    console.log('componentDidMount: new Cropper...')
-    const file = this.props.file
-    const image = document.getElementById(file.id)
-    if (this.cropper) this.cropper.destroy()
-    this.cropper = new Cropper(image, {
-      preview: '.img-preview',
-      crop: this.crop
-    })
+    this.init()
   }
 
   componentDidUpdate (prevProps) {
     if (prevProps.active === false && this.props.active === true) {
-      console.log('componentDidUpdate: new Cropper...')
-      const file = this.props.file
-      const image = document.getElementById(file.id)
-      if (this.cropper) this.cropper.destroy()
-      this.cropper = new Cropper(image, {
-        preview: '.img-preview',
-        crop: this.crop
-      })
+      this.init()
     }
+  }
+
+  init () {
+    console.log('new Cropper...')
+    const file = this.props.file
+    const image = document.getElementById(file.id)
+    const preview = document.getElementById(`preview-${file.id}`)
+    if (this.cropper) this.cropper.destroy()
+    this.cropper = new Cropper(image, {
+      ready: function () {
+        var clone = this.cloneNode()
+
+        clone.className = ''
+        clone.style.cssText = (
+          'display: block;' +
+          'width: 100%;' +
+          'min-width: 0;' +
+          'min-height: 0;' +
+          'max-width: none;' +
+          'max-height: none;'
+        )
+
+        preview.appendChild(clone.cloneNode())
+      },
+      crop: function (event) {
+        var data = event.detail
+        var cropper = this.cropper
+        var imageData = cropper.getImageData()
+        var previewAspectRatio = data.width / data.height
+
+        var previewImage = preview.getElementsByTagName('img').item(0)
+        var previewWidth = preview.offsetWidth
+        var previewHeight = previewWidth / previewAspectRatio
+        var imageScaledRatio = data.width / previewWidth
+        preview.style.height = previewHeight + 'px'
+        previewImage.style.width = imageData.naturalWidth / imageScaledRatio + 'px'
+        previewImage.style.height = imageData.naturalHeight / imageScaledRatio + 'px'
+        previewImage.style.marginLeft = -data.x / imageScaledRatio + 'px'
+        previewImage.style.marginTop = -data.y / imageScaledRatio + 'px'
+      }
+    })
   }
 
   crop (ev) {
@@ -82,15 +110,13 @@ class CropModal extends Component {
               <button type="button" class="close" aria-label="Close" onclick={this.onClose}><span aria-hidden="true">&times;</span></button>
             </div>
             <div class="modal-body">
-              <div class="row">
-                <div class="col-md-9">
-                  <div style={{ width: 400, height: 300 }}>
-                    <img id={file.id} src={file.preview} alt="Picture" style={{ height: '100%' }} />
+              <div style={{ margin: '20px auto', maxWidth: 700 }}>
+                <div class="row" style={{ overflow: 'hidden' }}>
+                  <div style={{ float: 'left', width: '70%' }}>
+                    <img id={file.id} src={file.preview} alt="Picture" style={{ maxWidth: '100%' }} />
                   </div>
-                </div>
-                <div class="col-md-3">
-                  <div class="docs-preview clearfix">
-                    <div class="img-preview preview-lg" />
+                  <div style={{ float: 'left', width: '30%' }}>
+                    <div id={`preview-${file.id}`} style={{ overflow: 'hidden' }} />
                   </div>
                 </div>
               </div>

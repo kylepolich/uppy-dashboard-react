@@ -21,6 +21,7 @@ var CropModal = function (_Component) {
 
     _this.cropper = null;
 
+    _this.init = _this.init.bind(_this);
     _this.crop = _this.crop.bind(_this);
     _this.onClick = _this.onClick.bind(_this);
     _this.onClose = _this.onClose.bind(_this);
@@ -29,27 +30,47 @@ var CropModal = function (_Component) {
   }
 
   CropModal.prototype.componentDidMount = function componentDidMount() {
-    console.log('componentDidMount: new Cropper...');
-    var file = this.props.file;
-    var image = document.getElementById(file.id);
-    if (this.cropper) this.cropper.destroy();
-    this.cropper = new Cropper(image, {
-      preview: '.img-preview',
-      crop: this.crop
-    });
+    this.init();
   };
 
   CropModal.prototype.componentDidUpdate = function componentDidUpdate(prevProps) {
     if (prevProps.active === false && this.props.active === true) {
-      console.log('componentDidUpdate: new Cropper...');
-      var file = this.props.file;
-      var image = document.getElementById(file.id);
-      if (this.cropper) this.cropper.destroy();
-      this.cropper = new Cropper(image, {
-        preview: '.img-preview',
-        crop: this.crop
-      });
+      this.init();
     }
+  };
+
+  CropModal.prototype.init = function init() {
+    console.log('new Cropper...');
+    var file = this.props.file;
+    var image = document.getElementById(file.id);
+    var preview = document.getElementById('preview-' + file.id);
+    if (this.cropper) this.cropper.destroy();
+    this.cropper = new Cropper(image, {
+      ready: function ready() {
+        var clone = this.cloneNode();
+
+        clone.className = '';
+        clone.style.cssText = 'display: block;' + 'width: 100%;' + 'min-width: 0;' + 'min-height: 0;' + 'max-width: none;' + 'max-height: none;';
+
+        preview.appendChild(clone.cloneNode());
+      },
+      crop: function crop(event) {
+        var data = event.detail;
+        var cropper = this.cropper;
+        var imageData = cropper.getImageData();
+        var previewAspectRatio = data.width / data.height;
+
+        var previewImage = preview.getElementsByTagName('img').item(0);
+        var previewWidth = preview.offsetWidth;
+        var previewHeight = previewWidth / previewAspectRatio;
+        var imageScaledRatio = data.width / previewWidth;
+        preview.style.height = previewHeight + 'px';
+        previewImage.style.width = imageData.naturalWidth / imageScaledRatio + 'px';
+        previewImage.style.height = imageData.naturalHeight / imageScaledRatio + 'px';
+        previewImage.style.marginLeft = -data.x / imageScaledRatio + 'px';
+        previewImage.style.marginTop = -data.y / imageScaledRatio + 'px';
+      }
+    });
   };
 
   CropModal.prototype.crop = function crop(ev) {
@@ -125,23 +146,19 @@ var CropModal = function (_Component) {
             { 'class': 'modal-body' },
             h(
               'div',
-              { 'class': 'row' },
+              { style: { margin: '20px auto', maxWidth: 700 } },
               h(
                 'div',
-                { 'class': 'col-md-9' },
+                { 'class': 'row', style: { overflow: 'hidden' } },
                 h(
                   'div',
-                  { style: { width: 400, height: 300 } },
-                  h('img', { id: file.id, src: file.preview, alt: 'Picture', style: { height: '100%' } })
-                )
-              ),
-              h(
-                'div',
-                { 'class': 'col-md-3' },
+                  { style: { float: 'left', width: '70%' } },
+                  h('img', { id: file.id, src: file.preview, alt: 'Picture', style: { maxWidth: '100%' } })
+                ),
                 h(
                   'div',
-                  { 'class': 'docs-preview clearfix' },
-                  h('div', { 'class': 'img-preview preview-lg' })
+                  { style: { float: 'left', width: '30%' } },
+                  h('div', { id: 'preview-' + file.id, style: { overflow: 'hidden' } })
                 )
               )
             )
