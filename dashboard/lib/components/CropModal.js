@@ -65,10 +65,12 @@ var CropModal = function (_Component) {
         var previewHeight = previewWidth / previewAspectRatio;
         var imageScaledRatio = data.width / previewWidth;
         preview.style.height = previewHeight + 'px';
-        previewImage.style.width = imageData.naturalWidth / imageScaledRatio + 'px';
-        previewImage.style.height = imageData.naturalHeight / imageScaledRatio + 'px';
-        previewImage.style.marginLeft = -data.x / imageScaledRatio + 'px';
-        previewImage.style.marginTop = -data.y / imageScaledRatio + 'px';
+        if (previewImage) {
+          previewImage.style.width = imageData.naturalWidth / imageScaledRatio + 'px';
+          previewImage.style.height = imageData.naturalHeight / imageScaledRatio + 'px';
+          previewImage.style.marginLeft = -data.x / imageScaledRatio + 'px';
+          previewImage.style.marginTop = -data.y / imageScaledRatio + 'px';
+        }
       }
     });
   };
@@ -119,7 +121,7 @@ var CropModal = function (_Component) {
         } },
       h(
         'div',
-        { 'class': 'modal-dialog', role: 'document' },
+        { 'class': 'modal-dialog', role: 'document', style: { maxWidth: 750 } },
         h(
           'div',
           { 'class': 'modal-content' },
@@ -146,18 +148,18 @@ var CropModal = function (_Component) {
             { 'class': 'modal-body' },
             h(
               'div',
-              { style: { margin: '20px auto', maxWidth: 700 } },
+              { style: { margin: 10, maxWidth: 700 } },
               h(
                 'div',
                 { 'class': 'row', style: { overflow: 'hidden' } },
                 h(
                   'div',
-                  { style: { float: 'left', width: '70%' } },
+                  { style: { float: 'left', width: '70%', padding: 5, background: 'gray' } },
                   h('img', { id: file.id, src: file.preview, alt: 'Picture', style: { maxWidth: '100%' } })
                 ),
                 h(
                   'div',
-                  { style: { float: 'left', width: '30%' } },
+                  { style: { float: 'left', width: '30%', padding: 5 } },
                   h('div', { id: 'preview-' + file.id, style: { overflow: 'hidden' } })
                 )
               )

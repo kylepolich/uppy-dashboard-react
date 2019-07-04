@@ -59,10 +59,12 @@ class CropModal extends Component {
         var previewHeight = previewWidth / previewAspectRatio
         var imageScaledRatio = data.width / previewWidth
         preview.style.height = previewHeight + 'px'
-        previewImage.style.width = imageData.naturalWidth / imageScaledRatio + 'px'
-        previewImage.style.height = imageData.naturalHeight / imageScaledRatio + 'px'
-        previewImage.style.marginLeft = -data.x / imageScaledRatio + 'px'
-        previewImage.style.marginTop = -data.y / imageScaledRatio + 'px'
+        if (previewImage) {
+          previewImage.style.width = imageData.naturalWidth / imageScaledRatio + 'px'
+          previewImage.style.height = imageData.naturalHeight / imageScaledRatio + 'px'
+          previewImage.style.marginLeft = -data.x / imageScaledRatio + 'px'
+          previewImage.style.marginTop = -data.y / imageScaledRatio + 'px'
+        }
       }
     })
   }
@@ -103,19 +105,19 @@ class CropModal extends Component {
 
     return (
       <div class={`modal fade${active !== false ? ' d-block fade show' : ''}`} style={{ background: 'rgba(0,0,0,0.5)' }} onclick={this.onClick} ref={(background) => { this.background = background }}>
-        <div class="modal-dialog" role="document">
+        <div class="modal-dialog" role="document" style={{ maxWidth: 750 }}>
           <div class="modal-content">
             <div class="modal-header">
               <h5 class="modal-title" id="modalLabel">Cropper</h5>
               <button type="button" class="close" aria-label="Close" onclick={this.onClose}><span aria-hidden="true">&times;</span></button>
             </div>
             <div class="modal-body">
-              <div style={{ margin: '20px auto', maxWidth: 700 }}>
+              <div style={{ margin: 10, maxWidth: 700 }}>
                 <div class="row" style={{ overflow: 'hidden' }}>
-                  <div style={{ float: 'left', width: '70%' }}>
+                  <div style={{ float: 'left', width: '70%', padding: 5, background: 'gray' }}>
                     <img id={file.id} src={file.preview} alt="Picture" style={{ maxWidth: '100%' }} />
                   </div>
-                  <div style={{ float: 'left', width: '30%' }}>
+                  <div style={{ float: 'left', width: '30%', padding: 5 }}>
                     <div id={`preview-${file.id}`} style={{ overflow: 'hidden' }} />
                   </div>
                 </div>
