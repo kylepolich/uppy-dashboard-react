@@ -32,9 +32,9 @@ var CropModal = function (_Component) {
     console.log('componentDidMount: new Cropper...');
     var file = this.props.file;
     var image = document.getElementById(file.id);
+    if (this.cropper) this.cropper.destroy();
     this.cropper = new Cropper(image, {
-      aspectRatio: 16 / 9,
-      guides: true,
+      preview: '.img-preview',
       crop: this.crop
     });
   };
@@ -44,9 +44,9 @@ var CropModal = function (_Component) {
       console.log('componentDidUpdate: new Cropper...');
       var file = this.props.file;
       var image = document.getElementById(file.id);
+      if (this.cropper) this.cropper.destroy();
       this.cropper = new Cropper(image, {
-        aspectRatio: 16 / 9,
-        guides: true,
+        preview: '.img-preview',
         crop: this.crop
       });
     }
@@ -131,8 +131,8 @@ var CropModal = function (_Component) {
                 { 'class': 'col-md-9' },
                 h(
                   'div',
-                  { style: { maxWidth: '100%' } },
-                  h('img', { id: file.id, src: file.preview, alt: 'Picture' })
+                  { style: { width: 400, height: 300 } },
+                  h('img', { id: file.id, src: file.preview, alt: 'Picture', style: { height: '100%' } })
                 )
               ),
               h(
@@ -142,191 +142,6 @@ var CropModal = function (_Component) {
                   'div',
                   { 'class': 'docs-preview clearfix' },
                   h('div', { 'class': 'img-preview preview-lg' })
-                ),
-                h(
-                  'div',
-                  { 'class': 'btn-group' },
-                  h(
-                    'button',
-                    { type: 'button', 'class': 'btn btn-primary', 'data-method': 'setDragMode', 'data-option': 'move', title: 'Move' },
-                    h(
-                      'span',
-                      { 'class': 'docs-tooltip', 'data-toggle': 'tooltip', title: 'cropper.setDragMode("move")' },
-                      h('span', { 'class': 'fa fa-arrows-alt' })
-                    )
-                  ),
-                  h(
-                    'button',
-                    { type: 'button', 'class': 'btn btn-primary', 'data-method': 'setDragMode', 'data-option': 'crop', title: 'Crop' },
-                    h(
-                      'span',
-                      { 'class': 'docs-tooltip', 'data-toggle': 'tooltip', title: 'cropper.setDragMode("crop")' },
-                      h('span', { 'class': 'fa fa-crop-alt' })
-                    )
-                  )
-                ),
-                h(
-                  'div',
-                  { 'class': 'btn-group' },
-                  h(
-                    'button',
-                    { type: 'button', 'class': 'btn btn-primary', 'data-method': 'zoom', 'data-option': '0.1', title: 'Zoom In' },
-                    h(
-                      'span',
-                      { 'class': 'docs-tooltip', 'data-toggle': 'tooltip', title: 'cropper.zoom(0.1)' },
-                      h('span', { 'class': 'fa fa-search-plus' })
-                    )
-                  ),
-                  h(
-                    'button',
-                    { type: 'button', 'class': 'btn btn-primary', 'data-method': 'zoom', 'data-option': '-0.1', title: 'Zoom Out' },
-                    h(
-                      'span',
-                      { 'class': 'docs-tooltip', 'data-toggle': 'tooltip', title: 'cropper.zoom(-0.1)' },
-                      h('span', { 'class': 'fa fa-search-minus' })
-                    )
-                  )
-                ),
-                h(
-                  'div',
-                  { 'class': 'btn-group' },
-                  h(
-                    'button',
-                    { type: 'button', 'class': 'btn btn-primary', 'data-method': 'move', 'data-option': '-10', 'data-second-option': '0', title: 'Move Left' },
-                    h(
-                      'span',
-                      { 'class': 'docs-tooltip', 'data-toggle': 'tooltip', title: 'cropper.move(-10, 0)' },
-                      h('span', { 'class': 'fa fa-arrow-left' })
-                    )
-                  ),
-                  h(
-                    'button',
-                    { type: 'button', 'class': 'btn btn-primary', 'data-method': 'move', 'data-option': '10', 'data-second-option': '0', title: 'Move Right' },
-                    h(
-                      'span',
-                      { 'class': 'docs-tooltip', 'data-toggle': 'tooltip', title: 'cropper.move(10, 0)' },
-                      h('span', { 'class': 'fa fa-arrow-right' })
-                    )
-                  ),
-                  h(
-                    'button',
-                    { type: 'button', 'class': 'btn btn-primary', 'data-method': 'move', 'data-option': '0', 'data-second-option': '-10', title: 'Move Up' },
-                    h(
-                      'span',
-                      { 'class': 'docs-tooltip', 'data-toggle': 'tooltip', title: 'cropper.move(0, -10)' },
-                      h('span', { 'class': 'fa fa-arrow-up' })
-                    )
-                  ),
-                  h(
-                    'button',
-                    { type: 'button', 'class': 'btn btn-primary', 'data-method': 'move', 'data-option': '0', 'data-second-option': '10', title: 'Move Down' },
-                    h(
-                      'span',
-                      { 'class': 'docs-tooltip', 'data-toggle': 'tooltip', title: 'cropper.move(0, 10)' },
-                      h('span', { 'class': 'fa fa-arrow-down' })
-                    )
-                  )
-                ),
-                h(
-                  'div',
-                  { 'class': 'btn-group' },
-                  h(
-                    'button',
-                    { type: 'button', 'class': 'btn btn-primary', 'data-method': 'rotate', 'data-option': '-45', title: 'Rotate Left' },
-                    h(
-                      'span',
-                      { 'class': 'docs-tooltip', 'data-toggle': 'tooltip', title: 'cropper.rotate(-45)' },
-                      h('span', { 'class': 'fa fa-undo-alt' })
-                    )
-                  ),
-                  h(
-                    'button',
-                    { type: 'button', 'class': 'btn btn-primary', 'data-method': 'rotate', 'data-option': '45', title: 'Rotate Right' },
-                    h(
-                      'span',
-                      { 'class': 'docs-tooltip', 'data-toggle': 'tooltip', title: 'cropper.rotate(45)' },
-                      h('span', { 'class': 'fa fa-redo-alt' })
-                    )
-                  )
-                ),
-                h(
-                  'div',
-                  { 'class': 'btn-group' },
-                  h(
-                    'button',
-                    { type: 'button', 'class': 'btn btn-primary', 'data-method': 'scaleX', 'data-option': '-1', title: 'Flip Horizontal' },
-                    h(
-                      'span',
-                      { 'class': 'docs-tooltip', 'data-toggle': 'tooltip', title: 'cropper.scaleX(-1)' },
-                      h('span', { 'class': 'fa fa-arrows-alt-h' })
-                    )
-                  ),
-                  h(
-                    'button',
-                    { type: 'button', 'class': 'btn btn-primary', 'data-method': 'scaleY', 'data-option': '-1', title: 'Flip Vertical' },
-                    h(
-                      'span',
-                      { 'class': 'docs-tooltip', 'data-toggle': 'tooltip', title: 'cropper.scaleY(-1)' },
-                      h('span', { 'class': 'fa fa-arrows-alt-v' })
-                    )
-                  )
-                ),
-                h(
-                  'div',
-                  { 'class': 'btn-group' },
-                  h(
-                    'button',
-                    { type: 'button', 'class': 'btn btn-primary', 'data-method': 'crop', title: 'Crop' },
-                    h(
-                      'span',
-                      { 'class': 'docs-tooltip', 'data-toggle': 'tooltip', title: 'cropper.crop()' },
-                      h('span', { 'class': 'fa fa-check' })
-                    )
-                  ),
-                  h(
-                    'button',
-                    { type: 'button', 'class': 'btn btn-primary', 'data-method': 'clear', title: 'Clear' },
-                    h(
-                      'span',
-                      { 'class': 'docs-tooltip', 'data-toggle': 'tooltip', title: 'cropper.clear()' },
-                      h('span', { 'class': 'fa fa-times' })
-                    )
-                  )
-                ),
-                h(
-                  'div',
-                  { 'class': 'btn-group' },
-                  h(
-                    'button',
-                    { type: 'button', 'class': 'btn btn-primary', 'data-method': 'disable', title: 'Disable' },
-                    h(
-                      'span',
-                      { 'class': 'docs-tooltip', 'data-toggle': 'tooltip', title: 'cropper.disable()' },
-                      h('span', { 'class': 'fa fa-lock' })
-                    )
-                  ),
-                  h(
-                    'button',
-                    { type: 'button', 'class': 'btn btn-primary', 'data-method': 'enable', title: 'Enable' },
-                    h(
-                      'span',
-                      { 'class': 'docs-tooltip', 'data-toggle': 'tooltip', title: 'cropper.enable()' },
-                      h('span', { 'class': 'fa fa-unlock' })
-                    )
-                  )
-                ),
-                h(
-                  'div',
-                  { 'class': 'btn-group' },
-                  h(
-                    'button',
-                    { type: 'button', 'class': 'btn btn-primary', 'data-method': 'reset', title: 'Reset' },
-                    h(
-                      'span',
-                      { 'class': 'docs-tooltip', 'data-toggle': 'tooltip', title: 'cropper.reset()' },
-                      h('span', { 'class': 'fa fa-sync-alt' })
-                    )
-                  )
                 )
               )
             )
