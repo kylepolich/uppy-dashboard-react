@@ -82,8 +82,138 @@ class CropModal extends Component {
               <button type="button" class="close" aria-label="Close" onclick={this.onClose}><span aria-hidden="true">&times;</span></button>
             </div>
             <div class="modal-body">
-              <div style={{ maxWidth: '100%' }}>
-                <img id={file.id} src={file.preview} alt="Picture" />
+              <div class="row">
+                <div class="col-md-9">
+                  <div style={{ maxWidth: '100%' }}>
+                    <img id={file.id} src={file.preview} alt="Picture" />
+                  </div>
+                </div>
+                
+                <div class="col-md-3">
+
+                  {/* preview */}
+                  <div class="docs-preview clearfix">
+                    <div class="img-preview preview-lg" />
+                  </div>
+
+                  {/* drag-mode */}
+                  <div class="btn-group">
+                    <button type="button" class="btn btn-primary" data-method="setDragMode" data-option="move" title="Move">
+                      <span class="docs-tooltip" data-toggle="tooltip" title="cropper.setDragMode(&quot;move&quot;)">
+                        <span class="fa fa-arrows-alt" />
+                      </span>
+                    </button>
+                    <button type="button" class="btn btn-primary" data-method="setDragMode" data-option="crop" title="Crop">
+                      <span class="docs-tooltip" data-toggle="tooltip" title="cropper.setDragMode(&quot;crop&quot;)">
+                        <span class="fa fa-crop-alt" />
+                      </span>
+                    </button>
+                  </div>
+
+                  {/* zoom */}
+                  <div class="btn-group">
+                    <button type="button" class="btn btn-primary" data-method="zoom" data-option="0.1" title="Zoom In">
+                      <span class="docs-tooltip" data-toggle="tooltip" title="cropper.zoom(0.1)">
+                        <span class="fa fa-search-plus" />
+                      </span>
+                    </button>
+                    <button type="button" class="btn btn-primary" data-method="zoom" data-option="-0.1" title="Zoom Out">
+                      <span class="docs-tooltip" data-toggle="tooltip" title="cropper.zoom(-0.1)">
+                        <span class="fa fa-search-minus" />
+                      </span>
+                    </button>
+                  </div>
+
+                  {/* move */}
+                  <div class="btn-group">
+                    <button type="button" class="btn btn-primary" data-method="move" data-option="-10" data-second-option="0" title="Move Left">
+                      <span class="docs-tooltip" data-toggle="tooltip" title="cropper.move(-10, 0)">
+                        <span class="fa fa-arrow-left" />
+                      </span>
+                    </button>
+                    <button type="button" class="btn btn-primary" data-method="move" data-option="10" data-second-option="0" title="Move Right">
+                      <span class="docs-tooltip" data-toggle="tooltip" title="cropper.move(10, 0)">
+                        <span class="fa fa-arrow-right" />
+                      </span>
+                    </button>
+                    <button type="button" class="btn btn-primary" data-method="move" data-option="0" data-second-option="-10" title="Move Up">
+                      <span class="docs-tooltip" data-toggle="tooltip" title="cropper.move(0, -10)">
+                        <span class="fa fa-arrow-up" />
+                      </span>
+                    </button>
+                    <button type="button" class="btn btn-primary" data-method="move" data-option="0" data-second-option="10" title="Move Down">
+                      <span class="docs-tooltip" data-toggle="tooltip" title="cropper.move(0, 10)">
+                        <span class="fa fa-arrow-down" />
+                      </span>
+                    </button>
+                  </div>
+
+                  {/* rotate */}
+                  <div class="btn-group">
+                    <button type="button" class="btn btn-primary" data-method="rotate" data-option="-45" title="Rotate Left">
+                      <span class="docs-tooltip" data-toggle="tooltip" title="cropper.rotate(-45)">
+                        <span class="fa fa-undo-alt" />
+                      </span>
+                    </button>
+                    <button type="button" class="btn btn-primary" data-method="rotate" data-option="45" title="Rotate Right">
+                      <span class="docs-tooltip" data-toggle="tooltip" title="cropper.rotate(45)">
+                        <span class="fa fa-redo-alt" />
+                      </span>
+                    </button>
+                  </div>
+
+                  {/* flip */}
+                  <div class="btn-group">
+                    <button type="button" class="btn btn-primary" data-method="scaleX" data-option="-1" title="Flip Horizontal">
+                      <span class="docs-tooltip" data-toggle="tooltip" title="cropper.scaleX(-1)">
+                        <span class="fa fa-arrows-alt-h" />
+                      </span>
+                    </button>
+                    <button type="button" class="btn btn-primary" data-method="scaleY" data-option="-1" title="Flip Vertical">
+                      <span class="docs-tooltip" data-toggle="tooltip" title="cropper.scaleY(-1)">
+                        <span class="fa fa-arrows-alt-v" />
+                      </span>
+                    </button>
+                  </div>
+
+                  {/* crop / clear */}
+                  <div class="btn-group">
+                    <button type="button" class="btn btn-primary" data-method="crop" title="Crop">
+                      <span class="docs-tooltip" data-toggle="tooltip" title="cropper.crop()">
+                        <span class="fa fa-check" />
+                      </span>
+                    </button>
+                    <button type="button" class="btn btn-primary" data-method="clear" title="Clear">
+                      <span class="docs-tooltip" data-toggle="tooltip" title="cropper.clear()">
+                        <span class="fa fa-times" />
+                      </span>
+                    </button>
+                  </div>
+
+                  {/* enable / disable */}
+                  <div class="btn-group">
+                    <button type="button" class="btn btn-primary" data-method="disable" title="Disable">
+                      <span class="docs-tooltip" data-toggle="tooltip" title="cropper.disable()">
+                        <span class="fa fa-lock" />
+                      </span>
+                    </button>
+                    <button type="button" class="btn btn-primary" data-method="enable" title="Enable">
+                      <span class="docs-tooltip" data-toggle="tooltip" title="cropper.enable()">
+                        <span class="fa fa-unlock" />
+                      </span>
+                    </button>
+                  </div>
+
+                  {/* reset */}
+                  <div class="btn-group">
+                    <button type="button" class="btn btn-primary" data-method="reset" title="Reset">
+                      <span class="docs-tooltip" data-toggle="tooltip" title="cropper.reset()">
+                        <span class="fa fa-sync-alt" />
+                      </span>
+                    </button>
+                  </div>
+
+                </div>
               </div>
             </div>
             <div class="modal-footer">
