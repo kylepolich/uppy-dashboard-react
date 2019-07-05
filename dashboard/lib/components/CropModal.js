@@ -49,6 +49,10 @@ var CropModal = function (_Component) {
     var preview = document.getElementById('preview-' + file.id);
     if (this.cropper) this.cropper.destroy();
     this.cropper = new Cropper(image, {
+      viewMode: 3,
+      initialAspectRatio: 4 / 3,
+      minContainerWidth: 400,
+      minContainerHeight: 300,
       data: {
         width: (minCroppedWidth + maxCroppedWidth) / 2,
         height: (minCroppedHeight + maxCroppedHeight) / 2
