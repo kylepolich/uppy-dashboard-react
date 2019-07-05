@@ -36,7 +36,6 @@ class CropModal extends Component {
     const preview = document.getElementById(`preview-${file.id}`)
     if (this.cropper) this.cropper.destroy()
     this.cropper = new Cropper(image, {
-      initialAspectRatio: 4 / 3,
       minContainerWidth: 400,
       minContainerHeight: 300,
       autoCropArea: 0.7,
