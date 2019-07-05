@@ -22,7 +22,6 @@ var CropModal = function (_Component) {
     _this.cropper = null;
 
     _this.init = _this.init.bind(_this);
-    _this.crop = _this.crop.bind(_this);
     _this.onClick = _this.onClick.bind(_this);
     _this.onClose = _this.onClose.bind(_this);
     _this.onSave = _this.onSave.bind(_this);

@@ -10,7 +10,6 @@ class CropModal extends Component {
     this.cropper = null
 
     this.init = this.init.bind(this)
-    this.crop = this.crop.bind(this)
     this.onClick = this.onClick.bind(this)
     this.onClose = this.onClose.bind(this)
     this.onSave = this.onSave.bind(this)
