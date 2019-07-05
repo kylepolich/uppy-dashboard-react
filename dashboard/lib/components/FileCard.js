@@ -51,6 +51,10 @@ var FileCard = function (_Component) {
       return;
     }
 
+    console.log('metaFields = ', this.props.metaFields);
+    console.log('this.meta = ', this.meta);
+    console.log('file.id = ', file.id);
+
     var value = ev.target.value;
     var name = ev.target.dataset.name;
     this.meta[name] = value;
@@ -121,8 +125,8 @@ var FileCard = function (_Component) {
     this.props.toggleCropModal(false);
   };
 
-  FileCard.prototype.handleSaveCropModal = function handleSaveCropModal(data) {
-    console.log('handleSaveCropModal: data = ', data);
+  FileCard.prototype.handleSaveCropModal = function handleSaveCropModal(blobUrl) {
+    this.props.toggleCropModal(false);
   };
 
   FileCard.prototype.render = function render() {

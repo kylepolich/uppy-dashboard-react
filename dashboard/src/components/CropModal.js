@@ -54,11 +54,12 @@ class CropModal extends Component {
         var imageData = cropper.getImageData()
         var previewAspectRatio = data.width / data.height
 
-        var previewImage = preview.getElementsByTagName('img').item(0)
         var previewWidth = preview.offsetWidth
         var previewHeight = previewWidth / previewAspectRatio
         var imageScaledRatio = data.width / previewWidth
         preview.style.height = previewHeight + 'px'
+
+        var previewImage = preview.getElementsByTagName('img').item(0)
         if (previewImage) {
           previewImage.style.width = imageData.naturalWidth / imageScaledRatio + 'px'
           previewImage.style.height = imageData.naturalHeight / imageScaledRatio + 'px'
@@ -67,16 +68,6 @@ class CropModal extends Component {
         }
       }
     })
-  }
-
-  crop (ev) {
-    console.log('x = ', ev.detail.x)
-    console.log('y = ', ev.detail.y)
-    console.log('w = ', ev.detail.width)
-    console.log('h = ', ev.detail.height)
-    console.log('ro = ', ev.detail.rotate)
-    console.log('sx = ', ev.detail.scaleX)
-    console.log('sy = ', ev.detail.scaleY)
   }
 
   onClick (ev) {
@@ -92,12 +83,24 @@ class CropModal extends Component {
   }
 
   onSave (ev) {
-    console.log('save...')
+    const cropOption = {
+      width: 160,                     // TODO: should get from configuration
+      height: 90,                     // TODO: should get from configuration
+      minWidth: 256,
+      minHeight: 256,
+      maxWidth: 1024,
+      maxHeight: 1024,
+      fillColor: 'transparent',
+      imageSmoothingEnabled: false,
+      imageSmoothingQuality: 'low'    // 'low' or 'medium' or 'high'
+    }
+    const quality = 0.92              // TODO: check image size
+    const blobUrl = this.cropper.getCroppedCanvas(/* cropOption */).toDataURL('image/png', quality)
     if (this.cropper) {
       this.cropper.destroy()
       this.cropper = null
     }
-    this.props.onSave()
+    this.props.onSave(blobUrl)
   }
 
   render () {
@@ -114,10 +117,10 @@ class CropModal extends Component {
             <div class="modal-body">
               <div style={{ margin: 10, maxWidth: 700 }}>
                 <div class="row" style={{ overflow: 'hidden' }}>
-                  <div style={{ float: 'left', width: '70%', padding: 5, background: 'gray' }}>
+                  <div style={{ float: 'left', width: '70%', background: 'gray' }}>
                     <img id={file.id} src={file.preview} alt="Picture" style={{ maxWidth: '100%' }} />
                   </div>
-                  <div style={{ float: 'left', width: '30%', padding: 5 }}>
+                  <div style={{ float: 'left', width: '30%', background: '#f7f7f7', padding: 5 }}>
                     <div id={`preview-${file.id}`} style={{ overflow: 'hidden' }} />
                   </div>
                 </div>
@@ -125,7 +128,7 @@ class CropModal extends Component {
             </div>
             <div class="modal-footer">
               <button type="button" class="btn btn-secondary" onclick={this.onClose}>Close</button>
-              <button type="button" class="btn btn-primary" onclick={this.onSave}>Save</button>
+              <button type="button" class="btn btn-primary" onclick={this.onSave}>Crop</button>
             </div>
           </div>
         </div>

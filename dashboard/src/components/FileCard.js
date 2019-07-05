@@ -35,6 +35,10 @@ class FileCard extends Component {
       return
     }
 
+    console.log('metaFields = ', this.props.metaFields)
+    console.log('this.meta = ', this.meta)
+    console.log('file.id = ', file.id)
+
     const value = ev.target.value
     const name = ev.target.dataset.name
     this.meta[name] = value
@@ -90,8 +94,9 @@ class FileCard extends Component {
     this.props.toggleCropModal(false)
   }
 
-  handleSaveCropModal (data) {
-    console.log('handleSaveCropModal: data = ', data)
+  handleSaveCropModal (blobUrl) {
+    this.props.toggleCropModal(false)
+
   }
 
   render () {

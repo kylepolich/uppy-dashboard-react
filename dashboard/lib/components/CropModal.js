@@ -60,11 +60,12 @@ var CropModal = function (_Component) {
         var imageData = cropper.getImageData();
         var previewAspectRatio = data.width / data.height;
 
-        var previewImage = preview.getElementsByTagName('img').item(0);
         var previewWidth = preview.offsetWidth;
         var previewHeight = previewWidth / previewAspectRatio;
         var imageScaledRatio = data.width / previewWidth;
         preview.style.height = previewHeight + 'px';
+
+        var previewImage = preview.getElementsByTagName('img').item(0);
         if (previewImage) {
           previewImage.style.width = imageData.naturalWidth / imageScaledRatio + 'px';
           previewImage.style.height = imageData.naturalHeight / imageScaledRatio + 'px';
@@ -73,16 +74,6 @@ var CropModal = function (_Component) {
         }
       }
     });
-  };
-
-  CropModal.prototype.crop = function crop(ev) {
-    console.log('x = ', ev.detail.x);
-    console.log('y = ', ev.detail.y);
-    console.log('w = ', ev.detail.width);
-    console.log('h = ', ev.detail.height);
-    console.log('ro = ', ev.detail.rotate);
-    console.log('sx = ', ev.detail.scaleX);
-    console.log('sy = ', ev.detail.scaleY);
   };
 
   CropModal.prototype.onClick = function onClick(ev) {
@@ -98,12 +89,24 @@ var CropModal = function (_Component) {
   };
 
   CropModal.prototype.onSave = function onSave(ev) {
-    console.log('save...');
+    var cropOption = {
+      width: 160, // TODO: should get from configuration
+      height: 90, // TODO: should get from configuration
+      minWidth: 256,
+      minHeight: 256,
+      maxWidth: 1024,
+      maxHeight: 1024,
+      fillColor: 'transparent',
+      imageSmoothingEnabled: false,
+      imageSmoothingQuality: 'low' // 'low' or 'medium' or 'high'
+    };
+    var quality = 0.92; // TODO: check image size
+    var blobUrl = this.cropper.getCroppedCanvas().toDataURL('image/png', quality);
     if (this.cropper) {
       this.cropper.destroy();
       this.cropper = null;
     }
-    this.props.onSave();
+    this.props.onSave(blobUrl);
   };
 
   CropModal.prototype.render = function render() {
@@ -154,12 +157,12 @@ var CropModal = function (_Component) {
                 { 'class': 'row', style: { overflow: 'hidden' } },
                 h(
                   'div',
-                  { style: { float: 'left', width: '70%', padding: 5, background: 'gray' } },
+                  { style: { float: 'left', width: '70%', background: 'gray' } },
                   h('img', { id: file.id, src: file.preview, alt: 'Picture', style: { maxWidth: '100%' } })
                 ),
                 h(
                   'div',
-                  { style: { float: 'left', width: '30%', padding: 5 } },
+                  { style: { float: 'left', width: '30%', background: '#f7f7f7', padding: 5 } },
                   h('div', { id: 'preview-' + file.id, style: { overflow: 'hidden' } })
                 )
               )
@@ -176,7 +179,7 @@ var CropModal = function (_Component) {
             h(
               'button',
               { type: 'button', 'class': 'btn btn-primary', onclick: this.onSave },
-              'Save'
+              'Crop'
             )
           )
         )
