@@ -53,6 +53,7 @@ var CropModal = function (_Component) {
       initialAspectRatio: 4 / 3,
       minContainerWidth: 400,
       minContainerHeight: 300,
+      autoCropArea: 0.7,
       data: {
         width: (minCroppedWidth + maxCroppedWidth) / 2,
         height: (minCroppedHeight + maxCroppedHeight) / 2
