@@ -777,8 +777,10 @@ module.exports = function (_Plugin) {
     };
 
     var saveFileCard = function saveFileCard(meta, fileID) {
+      var toggle = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : true;
+
       _this11.uppy.setFileMeta(fileID, meta);
-      _this11.toggleFileCard();
+      if (toggle) _this11.toggleFileCard();
     };
 
     return DashboardUI({

@@ -96,12 +96,15 @@ class FileCard extends Component {
 
   handleSaveCropModal (blobUrl) {
     this.props.toggleCropModal(false)
-
+    this.meta.blobUrl = blobUrl
+    const fileID = this.props.fileCardFor
+    this.props.saveFileCard(this.meta, fileID, false)
   }
 
   render () {
     const file = this.props.files[this.props.fileCardFor]
     const showCropModal = this.props.showCropModal
+    console.log('file.meta = ', file.meta)
 
     return (
       <div class="uppy-DashboardFileCard"

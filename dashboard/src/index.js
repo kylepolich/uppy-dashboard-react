@@ -713,9 +713,9 @@ module.exports = class Dashboard extends Plugin {
       this.uppy.removeFile(fileID)
     }
 
-    const saveFileCard = (meta, fileID) => {
+    const saveFileCard = (meta, fileID, toggle = true) => {
       this.uppy.setFileMeta(fileID, meta)
-      this.toggleFileCard()
+      if (toggle) this.toggleFileCard()
     }
 
     return DashboardUI({
