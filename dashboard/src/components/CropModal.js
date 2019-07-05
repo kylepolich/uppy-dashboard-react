@@ -26,12 +26,20 @@ class CropModal extends Component {
   }
 
   init () {
+    var minCroppedWidth = 100
+    var minCroppedHeight = 100
+    var maxCroppedWidth = 640
+    var maxCroppedHeight = 640
     console.log('new Cropper...')
     const file = this.props.file
     const image = document.getElementById(file.id)
     const preview = document.getElementById(`preview-${file.id}`)
     if (this.cropper) this.cropper.destroy()
     this.cropper = new Cropper(image, {
+      data: {
+        width: (minCroppedWidth + maxCroppedWidth) / 2,
+        height: (minCroppedHeight + maxCroppedHeight) / 2
+      },
       ready: function () {
         var clone = this.cloneNode()
 

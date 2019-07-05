@@ -39,12 +39,20 @@ var CropModal = function (_Component) {
   };
 
   CropModal.prototype.init = function init() {
+    var minCroppedWidth = 100;
+    var minCroppedHeight = 100;
+    var maxCroppedWidth = 640;
+    var maxCroppedHeight = 640;
     console.log('new Cropper...');
     var file = this.props.file;
     var image = document.getElementById(file.id);
     var preview = document.getElementById('preview-' + file.id);
     if (this.cropper) this.cropper.destroy();
     this.cropper = new Cropper(image, {
+      data: {
+        width: (minCroppedWidth + maxCroppedWidth) / 2,
+        height: (minCroppedHeight + maxCroppedHeight) / 2
+      },
       ready: function ready() {
         var clone = this.cloneNode();
 

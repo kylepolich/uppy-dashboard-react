@@ -51,10 +51,6 @@ var FileCard = function (_Component) {
       return;
     }
 
-    console.log('metaFields = ', this.props.metaFields);
-    console.log('this.meta = ', this.meta);
-    console.log('file.id = ', file.id);
-
     var value = ev.target.value;
     var name = ev.target.dataset.name;
     this.meta[name] = value;
@@ -136,6 +132,7 @@ var FileCard = function (_Component) {
   FileCard.prototype.render = function render() {
     var file = this.props.files[this.props.fileCardFor];
     var showCropModal = this.props.showCropModal;
+    console.log('file.meta = ', file.meta);
 
     return h(
       'div',
