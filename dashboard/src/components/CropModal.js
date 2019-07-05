@@ -37,7 +37,7 @@ class CropModal extends Component {
     if (this.cropper) this.cropper.destroy()
     this.cropper = new Cropper(image, {
       viewMode: 3,
-      initialAspectRatio: 4 / 3,
+      // initialAspectRatio: 4 / 3,
       minContainerWidth: 400,
       minContainerHeight: 300,
       autoCropArea: 0.7,
