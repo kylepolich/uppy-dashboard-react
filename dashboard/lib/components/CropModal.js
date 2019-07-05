@@ -49,11 +49,10 @@ var CropModal = function (_Component) {
     var preview = document.getElementById('preview-' + file.id);
     if (this.cropper) this.cropper.destroy();
     this.cropper = new Cropper(image, {
-      viewMode: 3,
-      // initialAspectRatio: 4 / 3,
-      // minContainerWidth: 400,
-      // minContainerHeight: 300,
-      // autoCropArea: 0.7,
+      initialAspectRatio: 4 / 3,
+      minContainerWidth: 400,
+      minContainerHeight: 300,
+      autoCropArea: 0.7,
       data: {
         width: (minCroppedWidth + maxCroppedWidth) / 2,
         height: (minCroppedHeight + maxCroppedHeight) / 2
@@ -73,8 +72,8 @@ var CropModal = function (_Component) {
         // set dimensions
         if (width < minCroppedWidth || height < minCroppedHeight || width > maxCroppedWidth || height > maxCroppedHeight) {
           cropper.setData({
-            width: Math.min(minCroppedWidth, Math.min(maxCroppedWidth, width)),
-            height: Math.min(minCroppedHeight, Math.min(maxCroppedHeight, height))
+            width: Math.max(minCroppedWidth, Math.min(maxCroppedWidth, width)),
+            height: Math.max(minCroppedHeight, Math.min(maxCroppedHeight, height))
           });
         }
 
