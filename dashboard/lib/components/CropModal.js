@@ -52,10 +52,10 @@ var CropModal = function (_Component) {
       minContainerWidth: 400,
       minContainerHeight: 300,
       autoCropArea: 0.7,
-      data: {
-        width: (minCroppedWidth + maxCroppedWidth) / 2,
-        height: (minCroppedHeight + maxCroppedHeight) / 2
-      },
+      // data: {
+      //   width: (minCroppedWidth + maxCroppedWidth) / 2,
+      //   height: (minCroppedHeight + maxCroppedHeight) / 2
+      // },
       ready: function ready() {
         var clone = this.cloneNode();
 
