@@ -62,22 +62,32 @@ var CropModal = function (_Component) {
         preview.appendChild(clone.cloneNode());
       },
       crop: function crop(event) {
-        var data = event.detail;
+        var width = event.detail.width;
+        var height = event.detail.height;
         var cropper = this.cropper;
-        var imageData = cropper.getImageData();
-        var previewAspectRatio = data.width / data.height;
+        // set dimensions
+        if (width < minCroppedWidth || height < minCroppedHeight || width > maxCroppedWidth || height > maxCroppedHeight) {
+          cropper.setData({
+            width: Math.max(minCroppedWidth, Math.min(maxCroppedWidth, width)),
+            height: Math.max(minCroppedHeight, Math.min(maxCroppedHeight, height))
+          });
+        }
 
+        // set preview
+        var previewAspectRatio = width / height;
         var previewWidth = preview.offsetWidth;
         var previewHeight = previewWidth / previewAspectRatio;
-        var imageScaledRatio = data.width / previewWidth;
         preview.style.height = previewHeight + 'px';
 
+        // set image in preview
         var previewImage = preview.getElementsByTagName('img').item(0);
         if (previewImage) {
+          var imageData = cropper.getImageData();
+          var imageScaledRatio = width / previewWidth;
           previewImage.style.width = imageData.naturalWidth / imageScaledRatio + 'px';
           previewImage.style.height = imageData.naturalHeight / imageScaledRatio + 'px';
-          previewImage.style.marginLeft = -data.x / imageScaledRatio + 'px';
-          previewImage.style.marginTop = -data.y / imageScaledRatio + 'px';
+          previewImage.style.marginLeft = -event.detail.x / imageScaledRatio + 'px';
+          previewImage.style.marginTop = -event.detail.y / imageScaledRatio + 'px';
         }
       }
     });
