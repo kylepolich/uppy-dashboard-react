@@ -126,16 +126,16 @@ var FileCard = function (_Component) {
   };
 
   FileCard.prototype.handleSaveCropModal = function handleSaveCropModal(blobUrl) {
-    this.props.toggleCropModal(false);
     this.meta.blobUrl = blobUrl;
     var fileID = this.props.fileCardFor;
     this.props.saveFileCard(this.meta, fileID, false);
+
+    this.props.toggleCropModal(false);
   };
 
   FileCard.prototype.render = function render() {
     var file = this.props.files[this.props.fileCardFor];
     var showCropModal = this.props.showCropModal;
-    console.log('file.meta = ', file.meta);
 
     return h(
       'div',
