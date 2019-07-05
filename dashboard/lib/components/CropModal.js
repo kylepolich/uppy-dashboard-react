@@ -73,8 +73,8 @@ var CropModal = function (_Component) {
         // set dimensions
         if (width < minCroppedWidth || height < minCroppedHeight || width > maxCroppedWidth || height > maxCroppedHeight) {
           cropper.setData({
-            width: Math.max(minCroppedWidth, Math.min(maxCroppedWidth, width)),
-            height: Math.max(minCroppedHeight, Math.min(maxCroppedHeight, height))
+            width: Math.min(minCroppedWidth, Math.min(maxCroppedWidth, width)),
+            height: Math.min(minCroppedHeight, Math.min(maxCroppedHeight, height))
           });
         }
 
